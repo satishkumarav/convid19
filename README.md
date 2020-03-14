@@ -1,2 +1,2 @@
 # convid19
- data for convid
+ Repository contains convid 19 transmission data, insights and scripts

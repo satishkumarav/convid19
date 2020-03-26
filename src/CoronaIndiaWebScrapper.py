@@ -16,7 +16,7 @@ url = 'https://www.mohfw.gov.in/'
 context = ssl._create_unverified_context()
 page = urllib.request.urlopen(url, context=context)
 
-#Create html tree scrapper
+# Create html tree scrapper
 soup = bs4.BeautifulSoup(page, features="lxml")
 lblairportscreened = 'Total number of passengers screened at airport '
 screenedKey = 'Airpot Screened'
@@ -27,23 +27,21 @@ metrics = {}
 infoblock = soup.select_one("div.information_row")
 spantags = infoblock.find_all("span")
 for span in spantags:
-    print(span.text)
-    value = span.text.strip().replace(" ", "").replace(",","")
+    value = span.text.strip().replace(" ", "").replace(",", "")
     metrics[screenedKey] = value
     break
 
-
-#Extract Statewise table data
+# Extract Statewise table data
 columns = []
 tabledata = []
 contentBlock = soup.select_one("div.content.newtab")
 table = contentBlock.select_one("div.table-responsive")
 trtags = table.find_all("tr")
-count =0
-size = len(trtags)-1
+count = 0
+size = len(trtags) - 1
 for trtag in trtags:
     if count == 0:
-        cont = trtag.text.strip().replace("\n","~")
+        cont = trtag.text.strip().replace("\n", "~")
         # Header row
         coltokens = cont.split("~")
         colCount = 0
@@ -51,7 +49,7 @@ for trtag in trtags:
             if colCount > 0:
                 thvalue = coltoken.strip().replace(" ", "").replace(",", "")
                 columns.append(thvalue)
-            colCount=colCount+1
+            colCount = colCount + 1
     elif 0 < count < size:
         # data row
         rwdata = []
@@ -60,15 +58,14 @@ for trtag in trtags:
         colCount = 0
         for coltoken in coltokens:
             if colCount > 0:
-                tdvalue = coltoken.strip().replace(" ", "").replace(",", "")
+                tdvalue = coltoken.strip().replace(" ", "").replace(",", "").replace("#","")
                 try:
                     rwdata.append(int(tdvalue))
                 except ValueError:
                     rwdata.append(tdvalue)
-            colCount=colCount+1
+            colCount = colCount + 1
         tabledata.append(rwdata)
     count = count + 1
-
 
 # Create Pandas Dataframe for data warrangling
 dfRegion = pd.DataFrame(data=tabledata, columns=columns)
@@ -77,24 +74,25 @@ dfRegion = pd.DataFrame(data=tabledata, columns=columns)
 
 
 # Compute statewise ToTal confirmed and motality rate
-dfRegion['Totalconfirmed'] = dfRegion['TotalConfirmedcases(IndianNational)'] + dfRegion['TotalConfirmedcases(ForeignNational)']
-dfRegion['MortalityRate'] = round(dfRegion['Death']*100 / dfRegion['Totalconfirmed'],2)
+dfRegion['Totalconfirmed'] = dfRegion['TotalConfirmedcases(IndianNational)'] + dfRegion[
+    'TotalConfirmedcases(ForeignNational)']
+dfRegion["Totalconfirmed"] = pd.to_numeric(dfRegion["Totalconfirmed"])
+dfRegion['MortalityRate'] = round(dfRegion['Death'] * 100 / (dfRegion['Totalconfirmed']), 2)
 # Sort by the Statename
 sortby = columns[1]
 dfRegion.sort_values(by=sortby)
 df = dfRegion.reset_index(drop=True)
 dfRegion.drop([1])
 
-
-
 # Compute metric at national level
 sum_columns = dfRegion.sum(axis=0)
-metrics['TotalConfirmed'] = int(sum_columns['Totalconfirmed'])
+metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases(IndianNational)']) + int(sum_columns['TotalConfirmedcases(ForeignNational)'])
 metrics['TotalDeaths'] = int(sum_columns['Death'])
 metrics['TotalRecovered'] = int(sum_columns['Cured/Discharged/Migrated'])
 metrics['TotalLocalTransmissions'] = int(sum_columns['TotalConfirmedcases(IndianNational)'])
 metrics['TotalExternalTransmission'] = int(sum_columns['TotalConfirmedcases(ForeignNational)'])
-metrics['MortalityRate%'] = int(round(sum_columns['Death'] * 100 / sum_columns['Totalconfirmed'],2))
+metrics['MortalityRate%'] = int(round(sum_columns['Death'] * 100 / sum_columns['Totalconfirmed'], 2))
+
 
 # Initialize the file names
 dataPath = Path.parent

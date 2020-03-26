@@ -54,7 +54,7 @@ def coronaindia():
                     thvalue = coltoken.strip().replace(" ", "").replace(",", "")
                     columns.append(thvalue)
                 colCount = colCount + 1
-        elif 0 < count < size:
+        elif 0 < count < size-1:
             # data row
             rwdata = []
             cont = trtag.text.strip().replace("\n", "~")
@@ -144,12 +144,18 @@ def coronaindia():
             connection.close()
             print("PostgreSQL connection is closed")
 
-# Define scheduler job
-schedule.every(3).hours.do(coronaindia)
+def scheduleIT():
+    # Define scheduler job
+    schedule.every(3).hours.do(coronaindia)
 
-#run the scheduler
-while True:
-    # Checks whether a scheduled task
-    # is pending to run or not
-    schedule.run_pending()
-    time.sleep(1)
+    #run the scheduler
+    while True:
+        # Checks whether a scheduled task
+        # is pending to run or not
+        schedule.run_pending()
+        time.sleep(1)
+
+def test():
+    coronaindia()
+
+test()

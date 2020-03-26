@@ -50,7 +50,7 @@ for trtag in trtags:
                 thvalue = coltoken.strip().replace(" ", "").replace(",", "")
                 columns.append(thvalue)
             colCount = colCount + 1
-    elif 0 < count < size:
+    elif 0 < count < size-1:
         # data row
         rwdata = []
         cont = trtag.text.strip().replace("\n", "~")

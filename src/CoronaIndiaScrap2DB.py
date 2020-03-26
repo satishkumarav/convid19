@@ -98,7 +98,7 @@ def coronaindia():
     metrics['MortalityRate%'] = int(round(sum_columns['Death'] * 100 / sum_columns['Totalconfirmed'], 2))
 
     # Write data to Timescale DB
-    CONNECTIONURI = "postgres://tsdbadmin:pxn5kcqhhpft1b3z@tsdb-corona-avsk71-959a.a.timescaledb.io:28164/defaultdb?sslmode=require"
+    CONNECTIONURI = "XXXXx"
     locationparent = "India"
     locationtype = "State"  # World,Country,State, Region, SubRegion, Zone, Ward
     utc_datetime = datetime.utcnow()

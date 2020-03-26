@@ -13,8 +13,14 @@ import psycopg2
 from pgcopy import CopyManager
 import schedule
 import time
+import configparser
 
 def coronaindia():
+    #Read Configuration Information
+    config = configparser.ConfigParser()
+    config.read('../environment.properties')
+    DBURL = config['DB']['DBURL']
+    print(DBURL)
     url = 'https://www.mohfw.gov.in/'
     # Create unverified SSL context to avoid SSL Invalid Certificate errors
     context = ssl._create_unverified_context()
@@ -74,14 +80,12 @@ def coronaindia():
     # Create Pandas Dataframe for data warrangling
     dfRegion = pd.DataFrame(data=tabledata, columns=columns)
 
-    # Remove first column
-
-
     # Compute statewise ToTal confirmed and motality rate
     dfRegion['Totalconfirmed'] = dfRegion['TotalConfirmedcases(IndianNational)'] + dfRegion[
         'TotalConfirmedcases(ForeignNational)']
     dfRegion["Totalconfirmed"] = pd.to_numeric(dfRegion["Totalconfirmed"])
     dfRegion['MortalityRate'] = round(dfRegion['Death'] * 100 / (dfRegion['Totalconfirmed']), 2)
+
     # Sort by the Statename
     sortby = columns[1]
     dfRegion.sort_values(by=sortby)
@@ -98,12 +102,11 @@ def coronaindia():
     metrics['MortalityRate%'] = int(round(sum_columns['Death'] * 100 / sum_columns['Totalconfirmed'], 2))
 
     # Write data to Timescale DB
-    CONNECTIONURI = "XXXXx"
+    CONNECTIONURI = DBURL
     locationparent = "India"
     locationtype = "State"  # World,Country,State, Region, SubRegion, Zone, Ward
     utc_datetime = datetime.utcnow()
     tmpstamp = utc_datetime.strftime("%Y-%m-%d %H:%M:%S")
-    print("timestamp utc %s, localtime %s", utc_datetime, datetime.now())
     # Create DB Connection
     try:
         # Create connection and cursor
@@ -119,8 +122,6 @@ def coronaindia():
             totalexternaltransmission = row['TotalConfirmedcases(ForeignNational)']
             motalityrate = row['MortalityRate']
             locationKey = locationparent + "." + location
-            print(location, locationKey, locationparent, locationtype, totalconfirmation, totaldeath, totalrecovered,
-                  totallocaltransmission, totalexternaltransmission, motalityrate)
             cursor.execute(
                 "INSERT INTO spread (timestampz,location, locationKey, locationparent,locationtype,totalconfirmation,totaldeath,totalrecovered,totallocaltransmission,totalexternaltransmission,motalityrate) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING",
                 (tmpstamp,location, locationKey, locationparent, locationtype, totalconfirmation, totaldeath, totalrecovered,
@@ -148,9 +149,15 @@ def scheduleIT():
     # Define scheduler job
     schedule.every(3).hours.do(coronaindia)
 
-#run the scheduler
-while True:
-    # Checks whether a scheduled task
-    # is pending to run or not
-    schedule.run_pending()
-    time.sleep(1)
+    #run the scheduler
+    while True:
+        # Checks whether a scheduled task
+        # is pending to run or not
+        schedule.run_pending()
+        time.sleep(1)
+
+def ondemand():
+    coronaindia()
+
+# Invoke in on-demand mode
+ondemand()

@@ -5,3 +5,5 @@
 .idea/convid19.iml
 .idea/dbnavigator.xml
 src/CoronaIndiaScrap2DB.py
+environment.properties
+.DS_Store

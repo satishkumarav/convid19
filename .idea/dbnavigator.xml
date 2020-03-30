@@ -25,17 +25,14 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="b04c4c70-bb4c-435a-8e88-485392b8690e">
-        <schema name="_timescaledb_cache" object-types="table, view, sequence, function" />
-        <schema name="pg_catalog" object-types="table, view, column, function" />
-        <schema name="public" object-types="dataset trigger, argument, table, view, sequence, column, index, function, constraint" />
+        <schema name="pg_catalog" object-types="function, table, view" />
+        <schema name="public" object-types="function, table, sequence, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="b04c4c70-bb4c-435a-8e88-485392b8690e">
-      <console name="defaultdb" type="STANDARD" schema="public" session="Main"><![CDATA[drop table spread;
-select * from spread;
-CREATE TABLE SPREAD(timestamp TIMESTAMP NOT NULL,location TEXT NOT NULL,locationType TEXT NOT NULL,locationParent TEXT NOT NULL,locationKey TEXT NOT NULL,totalconfirmation INT NULL,totaldeath INT NULL,totalrecovered INT NULL, totallocaltransmission INT NULL, totalexternaltransmission INT NULL,motalityrate DOUBLE PRECISION NULL)]]></console>
+      <console name="defaultdb" type="STANDARD" schema="public" session="Main">select * from spread;</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -69,7 +66,9 @@ CREATE TABLE SPREAD(timestamp TIMESTAMP NOT NULL,location TEXT NOT NULL,location
     <filters />
   </component>
   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
-    <recently-used-interfaces />
+    <recently-used-interfaces>
+      <mapping database-type="POSTGRES" interface-id="DEFAULT" />
+    </recently-used-interfaces>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
@@ -285,8 +284,10 @@ CREATE TABLE SPREAD(timestamp TIMESTAMP NOT NULL,location TEXT NOT NULL,location
           <content-type name="DTD" enabled="true" />
           <content-type name="HTML" enabled="true" />
           <content-type name="XHTML" enabled="true" />
+          <content-type name="CSS" enabled="true" />
           <content-type name="SQL" enabled="true" />
           <content-type name="PL/SQL" enabled="true" />
+          <content-type name="JavaScript" enabled="true" />
           <content-type name="YAML" enabled="true" />
         </content-types>
       </qualified-text-editor>
@@ -483,7 +484,7 @@ CREATE TABLE SPREAD(timestamp TIMESTAMP NOT NULL,location TEXT NOT NULL,location
     <operation-settings>
       <transactions>
         <uncommitted-changes>
-          <on-project-close value="ASK" />
+          <on-project-close value="COMMIT" />
           <on-disconnect value="ASK" />
           <on-autocommit-toggle value="ASK" />
         </uncommitted-changes>

@@ -81,9 +81,8 @@ def coronaindia():
     dfRegion = pd.DataFrame(data=tabledata, columns=columns)
 
     # Compute statewise ToTal confirmed and motality rate
-    dfRegion['Totalconfirmed'] = dfRegion['TotalConfirmedcases(IndianNational)'] + dfRegion[
-        'TotalConfirmedcases(ForeignNational)']
-    dfRegion["Totalconfirmed"] = pd.to_numeric(dfRegion["Totalconfirmed"])
+    #dfRegion['Totalconfirmed'] = dfRegion['TotalConfirmedcases(IndianNational)'] + dfRegion['TotalConfirmedcases(ForeignNational)']
+    dfRegion["Totalconfirmed"] = pd.to_numeric(dfRegion["TotalConfirmedcases*"])
     dfRegion['MortalityRate'] = round(dfRegion['Death'] * 100 / (dfRegion['Totalconfirmed']), 2)
 
     # Sort by the Statename
@@ -94,11 +93,14 @@ def coronaindia():
 
     # Compute metric at national level
     sum_columns = dfRegion.sum(axis=0)
-    metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases(IndianNational)']) + int(sum_columns['TotalConfirmedcases(ForeignNational)'])
+    # metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases(IndianNational)']) + int(sum_columns['TotalConfirmedcases(ForeignNational)'])
+    metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases*'])
     metrics['TotalDeaths'] = int(sum_columns['Death'])
     metrics['TotalRecovered'] = int(sum_columns['Cured/Discharged/Migrated'])
-    metrics['TotalLocalTransmissions'] = int(sum_columns['TotalConfirmedcases(IndianNational)'])
-    metrics['TotalExternalTransmission'] = int(sum_columns['TotalConfirmedcases(ForeignNational)'])
+    metrics['TotalLocalTransmissions'] = 0
+    metrics['TotalExternalTransmission'] = 0
+    # metrics['TotalLocalTransmissions'] = int(sum_columns['TotalConfirmedcases(IndianNational)'])
+    # metrics['TotalExternalTransmission'] = int(sum_columns['TotalConfirmedcases(ForeignNational)'])
     metrics['MortalityRate%'] = int(round(sum_columns['Death'] * 100 / sum_columns['Totalconfirmed'], 2))
 
     # Write data to Timescale DB

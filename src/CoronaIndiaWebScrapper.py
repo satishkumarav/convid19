@@ -10,7 +10,7 @@ import os
 import pytz
 from datetime import datetime
 
-
+# Read Configuration Information
 url = 'https://www.mohfw.gov.in/'
 # Create unverified SSL context to avoid SSL Invalid Certificate errors
 context = ssl._create_unverified_context()
@@ -50,7 +50,7 @@ for trtag in trtags:
                 thvalue = coltoken.strip().replace(" ", "").replace(",", "")
                 columns.append(thvalue)
             colCount = colCount + 1
-    elif 0 < count < size-1:
+    elif 0 < count < size - 1:
         # data row
         rwdata = []
         cont = trtag.text.strip().replace("\n", "~")
@@ -58,7 +58,7 @@ for trtag in trtags:
         colCount = 0
         for coltoken in coltokens:
             if colCount > 0:
-                tdvalue = coltoken.strip().replace(" ", "").replace(",", "").replace("#","")
+                tdvalue = coltoken.strip().replace(" ", "").replace(",", "").replace("#", "")
                 try:
                     rwdata.append(int(tdvalue))
                 except ValueError:
@@ -70,14 +70,11 @@ for trtag in trtags:
 # Create Pandas Dataframe for data warrangling
 dfRegion = pd.DataFrame(data=tabledata, columns=columns)
 
-# Remove first column
-
-
 # Compute statewise ToTal confirmed and motality rate
-dfRegion['Totalconfirmed'] = dfRegion['TotalConfirmedcases(IndianNational)'] + dfRegion[
-    'TotalConfirmedcases(ForeignNational)']
-dfRegion["Totalconfirmed"] = pd.to_numeric(dfRegion["Totalconfirmed"])
+# dfRegion['Totalconfirmed'] = dfRegion['TotalConfirmedcases(IndianNational)'] + dfRegion['TotalConfirmedcases(ForeignNational)']
+dfRegion["Totalconfirmed"] = pd.to_numeric(dfRegion["TotalConfirmedcases*"])
 dfRegion['MortalityRate'] = round(dfRegion['Death'] * 100 / (dfRegion['Totalconfirmed']), 2)
+
 # Sort by the Statename
 sortby = columns[1]
 dfRegion.sort_values(by=sortby)
@@ -86,11 +83,14 @@ dfRegion.drop([1])
 
 # Compute metric at national level
 sum_columns = dfRegion.sum(axis=0)
-metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases(IndianNational)']) + int(sum_columns['TotalConfirmedcases(ForeignNational)'])
+# metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases(IndianNational)']) + int(sum_columns['TotalConfirmedcases(ForeignNational)'])
+metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases*'])
 metrics['TotalDeaths'] = int(sum_columns['Death'])
 metrics['TotalRecovered'] = int(sum_columns['Cured/Discharged/Migrated'])
-metrics['TotalLocalTransmissions'] = int(sum_columns['TotalConfirmedcases(IndianNational)'])
-metrics['TotalExternalTransmission'] = int(sum_columns['TotalConfirmedcases(ForeignNational)'])
+metrics['TotalLocalTransmissions'] = 0
+metrics['TotalExternalTransmission'] = 0
+# metrics['TotalLocalTransmissions'] = int(sum_columns['TotalConfirmedcases(IndianNational)'])
+# metrics['TotalExternalTransmission'] = int(sum_columns['TotalConfirmedcases(ForeignNational)'])
 metrics['MortalityRate%'] = int(round(sum_columns['Death'] * 100 / sum_columns['Totalconfirmed'], 2))
 
 
@@ -140,8 +140,6 @@ for k,v in metrics.items():
     else:
         headerstr=headerstr + "," + k
         mtrcstr = mtrcstr + "," + str(v)
-
-
 
 #Write dictionary to file
 f = open(metrics_file, "w")

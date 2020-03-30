@@ -1,2 +1,2 @@
-Airpot Screened,TotalConfirmed,TotalDeaths,TotalRecovered,TotalLocalTransmissions,TotalExternalTransmission,MortalityRate%
-1524266,1006,26,96,0,0,2
+Airpot Screened,Totalconfirmed,Death,Cured/Discharged/Migrated,TotalConfirmedcases(IndianNational),TotalConfirmedcases(ForeignNational),MortalityRate
+1524266,1205,32,102,1158,47,2

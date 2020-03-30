@@ -1,102 +1,21 @@
-from lxml import html
-import requests
-import urllib
-import bs4
-import ssl
-import lxml
 import pandas as pd
 from pathlib import Path
-import os
 import pytz
 from datetime import datetime
+from Utils import Util
+import pandas as pd
+import pytz
+from datetime import datetime
+from pathlib import Path
 
-# Read Configuration Information
-url = 'https://www.mohfw.gov.in/'
-# Create unverified SSL context to avoid SSL Invalid Certificate errors
-context = ssl._create_unverified_context()
-page = urllib.request.urlopen(url, context=context)
+from Utils import Util
 
-# Create html tree scrapper
-soup = bs4.BeautifulSoup(page, features="lxml")
-lblairportscreened = 'Total number of passengers screened at airport '
-screenedKey = 'Airpot Screened'
-# dictionary to hold the metrics
-metrics = {}
-
-# Scan the page for total passangers scanned
-infoblock = soup.select_one("div.information_row")
-spantags = infoblock.find_all("span")
-for span in spantags:
-    value = span.text.strip().replace(" ", "").replace(",", "")
-    metrics[screenedKey] = value
-    break
-
-# Extract Statewise table data
-columns = []
-tabledata = []
-contentBlock = soup.select_one("div.content.newtab")
-table = contentBlock.select_one("div.table-responsive")
-trtags = table.find_all("tr")
-count = 0
-size = len(trtags) - 1
-for trtag in trtags:
-    if count == 0:
-        cont = trtag.text.strip().replace("\n", "~")
-        # Header row
-        coltokens = cont.split("~")
-        colCount = 0
-        for coltoken in coltokens:
-            if colCount > 0:
-                thvalue = coltoken.strip().replace(" ", "").replace(",", "")
-                columns.append(thvalue)
-            colCount = colCount + 1
-    elif 0 < count < size - 1:
-        # data row
-        rwdata = []
-        cont = trtag.text.strip().replace("\n", "~")
-        coltokens = cont.split("~")
-        colCount = 0
-        for coltoken in coltokens:
-            if colCount > 0:
-                tdvalue = coltoken.strip().replace(" ", "").replace(",", "").replace("#", "")
-                try:
-                    rwdata.append(int(tdvalue))
-                except ValueError:
-                    rwdata.append(tdvalue)
-            colCount = colCount + 1
-        tabledata.append(rwdata)
-    count = count + 1
-
-# Create Pandas Dataframe for data warrangling
-dfRegion = pd.DataFrame(data=tabledata, columns=columns)
-
-# Compute statewise ToTal confirmed and motality rate
-# dfRegion['Totalconfirmed'] = dfRegion['TotalConfirmedcases(IndianNational)'] + dfRegion['TotalConfirmedcases(ForeignNational)']
-dfRegion["Totalconfirmed"] = pd.to_numeric(dfRegion["TotalConfirmedcases*"])
-dfRegion['MortalityRate'] = round(dfRegion['Death'] * 100 / (dfRegion['Totalconfirmed']), 2)
-
-# Sort by the Statename
-sortby = columns[1]
-dfRegion.sort_values(by=sortby)
-df = dfRegion.reset_index(drop=True)
-dfRegion.drop([1])
-
-# Compute metric at national level
-sum_columns = dfRegion.sum(axis=0)
-# metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases(IndianNational)']) + int(sum_columns['TotalConfirmedcases(ForeignNational)'])
-metrics['TotalConfirmed'] = int(sum_columns['TotalConfirmedcases*'])
-metrics['TotalDeaths'] = int(sum_columns['Death'])
-metrics['TotalRecovered'] = int(sum_columns['Cured/Discharged/Migrated'])
-metrics['TotalLocalTransmissions'] = 0
-metrics['TotalExternalTransmission'] = 0
-# metrics['TotalLocalTransmissions'] = int(sum_columns['TotalConfirmedcases(IndianNational)'])
-# metrics['TotalExternalTransmission'] = int(sum_columns['TotalConfirmedcases(ForeignNational)'])
-metrics['MortalityRate%'] = int(round(sum_columns['Death'] * 100 / sum_columns['Totalconfirmed'], 2))
-
+# Get India data
+dfRegion,metrics = Util.getIndiaData()
 
 # Initialize the file names
 dataPath = Path.parent
-print("Data Path: " ,dataPath)
+# print("Data Path: " ,dataPath)
 
 metrics_ts_file = "../datasets/india/metrics_ts.csv"
 metrics_file = "../datasets/india/metrics.csv"

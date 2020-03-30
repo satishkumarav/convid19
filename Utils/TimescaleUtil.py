@@ -72,7 +72,8 @@ def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.St
 
         # Writing the statewise records
         for idx, row in dfRegion.iterrows():
-            location = row[ColoumnName.NameofState_UT.value]
+            location = row[ColoumnName.NameofState_UT.value].strip().replace(" ", "").replace(",", "")
+            #coltoken.strip().replace(" ", "").replace(",", "")
             totalconfirmation = row[ColoumnName.Totalconfirmed.value]
             totaldeath = row[ColoumnName.Death.value]
             totalrecovered = row[ColoumnName.Cured_Discharged_Migrated.value]
@@ -83,7 +84,7 @@ def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.St
             if usetimestampfromdataframe:
                 tmpstamp = row[ColoumnName.TimestampUTC.value]
             else:
-                tmpstamp = utc_datetime
+                tmpstamp = utc_datetime.replace(microsecond=0)
 
             cursor.execute(
                 "INSERT INTO SPREAD (timestampz,location, locationKey, locationparent,locationtype,totalconfirmation,totaldeath,totalrecovered,totallocaltransmission,totalexternaltransmission,motalityrate) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING",

@@ -1,15 +1,11 @@
 import pandas as pd
-from pathlib import Path
-import pytz
-from datetime import datetime
-from Utils import Util
-import pandas as pd
 import pytz
 from datetime import datetime
 from pathlib import Path
 
-from Utils import Util
+from src.Utils import Util
 
+print('Webscrapper to CSV Execution Begin')
 # Get India data
 dfRegion,metrics = Util.getIndiaData()
 
@@ -78,4 +74,4 @@ except ValueError:
     f.close()
 
 
-print("End...")
+print("End of Execution")

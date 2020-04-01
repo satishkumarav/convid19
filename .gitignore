@@ -15,3 +15,5 @@ src/CoronaIndiaScrap2DB.py
 environment.properties
 src/CoronaIndiaScrap2DB.py
 tests/html/index.html
+.DS_Store
+src/.DS_Store

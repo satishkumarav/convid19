@@ -31,18 +31,19 @@ def getIndiaData():
     metrics = {}
 
     # Scan the page for total passangers scanned
-    infoblock = soup.select_one("div.information_row")
-    spantags = infoblock.find_all("span")
-    for span in spantags:
-        value = span.text.strip().replace(" ", "").replace(",", "")
-        metrics[screenedKey] = value
-        break
+    # infoblock = soup.select_one("div.information_row")
+    # spantags = infoblock.find_all("span")
+    # for span in spantags:
+    #     value = span.text.strip().replace(" ", "").replace(",", "")
+    #     metrics[screenedKey] = value
+    #     break
 
     # Extract Statewise table data
     columns = []
     tabledata = []
-    contentBlock = soup.select_one("div.content.newtab")
-    table = contentBlock.select_one("div.table-responsive")
+    #contentBlock = soup.select_one("div.content.newtab")
+    #table = contentBlock.select_one("div.table-responsive")
+    table = soup.find('table', {"class": "table table-striped"})  # Use dictionary to pass key : value pair
     trtags = table.find_all("tr")
     count = 0
     size = len(trtags) - 1
@@ -55,6 +56,8 @@ def getIndiaData():
             for coltoken in coltokens:
                 if colCount > 0:
                     thvalue = coltoken.strip().replace(" ", "").replace(",", "")
+                    if thvalue.startswith('TotalConfirmedcases'):
+                        thvalue="TotalConfirmedcases*"
                     columns.append(thvalue)
                 colCount = colCount + 1
         elif 0 < count < size - 1:
@@ -113,6 +116,6 @@ def getIndiaData():
             TimescaleUtil.ColoumnName.Totalconfirmed.value], 2))
 
     dfRegion.drop(['TotalConfirmedcases*'], axis=1, inplace=True)
-    dfRegion.drop([''], axis=1, inplace=True)
+    #dfRegion.drop([''], axis=1, inplace=True)
 
     return dfRegion, metrics

@@ -1,5 +1,5 @@
 drop table SPREAD;
-CREATE TABLE SPREAD(timestampz TIMESTAMP NOT NULL,location TEXT NOT NULL,locationType TEXT NOT NULL,locationParent TEXT NOT NULL,locationKey TEXT NOT NULL,totalconfirmation INT NULL,totaldeath INT NULL,totalrecovered INT NULL, totallocaltransmission INT NULL, totalexternaltransmission INT NULL,motalityrate DECIMAL NULL)
+CREATE TABLE SPREAD(timestampz TIMESTAMP NOT NULL,location TEXT NOT NULL,locationType TEXT NOT NULL,locationParent TEXT NOT NULL,locationKey TEXT NOT NULL,totalconfirmation INT NULL,totaldeath INT NULL,totalrecovered INT NULL, totallocaltransmission INT NULL, totalexternaltransmission INT NULL,motalityrate DECIMAL NULL);
 SELECT * from create_hypertable('SPREAD', 'timestampz','location',4);
 commit
 delete from SPREAD;

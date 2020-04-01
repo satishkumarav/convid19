@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://tsdb-corona-avsk71-959a.a.timescaledb.io:28164/defaultdb</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="TS-Mumbai" uuid="910f27a9-44f2-4d9b-a173-6b88d0223b52">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-13-233-253-72.ap-south-1.compute.amazonaws.com:5432/coronadb</jdbc-url>
+    </data-source>
   </component>
 </project>

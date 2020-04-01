@@ -1,9 +1,9 @@
 
 .gitignore
-*.*
 *.xml
 *.pyc
 *.iml
+*.vscode
 .idea/*
 .idea/dbnavigator.xml
 .idea/dbnavigator.xml
@@ -11,9 +11,7 @@
 .idea/convid19.iml
 .idea/dbnavigator.xml
 .DS_Store
-src/CoronaIndiaScrap2DB.py
 environment.properties
-src/CoronaIndiaScrap2DB.py
 tests/html/index.html
 .DS_Store
 src/.DS_Store

@@ -4,7 +4,7 @@ import time
 from src.Utils import Util
 from src.Utils import TimescaleUtil
 
-
+# Version 0.5
 def IndiaScrap2DB():
     # Get India data
     dfRegion, metrics = Util.getIndiaData()

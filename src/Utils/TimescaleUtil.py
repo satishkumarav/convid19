@@ -20,7 +20,7 @@ import enum
 import json
 from psycopg2.extras import RealDictCursor, DictCursor, NamedTupleCursor
 
-
+# Version 0.5
 # Enumeration consisting of column names
 class ColoumnName(enum.Enum):
     TimestampUTC = "TimestampUTC"

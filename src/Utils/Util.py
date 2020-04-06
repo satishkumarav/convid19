@@ -7,6 +7,7 @@ from datetime import datetime
 
 from src.Utils import TimescaleUtil
 
+# Version 0.5
 # returns UTC Datatime object for given date
 def getUTC(date_string, format='%d/%m/%y %I:%M %p'):
     my_date = datetime.strptime(date_string, format)

@@ -9,6 +9,8 @@ api = Api(app)
 auth = HTTPBasicAuth()
 
 
+# Version 0.5
+
 @auth.get_password
 def get_password(username):
     if username == 'merlin':
@@ -39,10 +41,10 @@ class LocationListAPI(Resource):
         self.reqparse.add_argument('limit', type=int,
                                    help='int, default is 1000', default=1000,
                                    location='json')
-        self.reqparse.add_argument('fromtime', type=lambda x: datetime.strptime(x,'%Y-%m-%d'),
+        self.reqparse.add_argument('fromtime', type=lambda x: datetime.strptime(x, '%Y-%m-%d'),
                                    help='UTC Time (format, YYYY-MM-DD)', default=None,
                                    location='json')
-        self.reqparse.add_argument('totime', type=lambda x: datetime.strptime(x,'%Y-%m-%d'),
+        self.reqparse.add_argument('totime', type=lambda x: datetime.strptime(x, '%Y-%m-%d'),
                                    help='UTC Time (format, YYYY-MM-DD)', default=None,
                                    location='json')
 
@@ -72,18 +74,13 @@ class LocationListAPI(Resource):
         if args['historical']:
             historical = True
 
-        # limit = 1000
-        # if 'limit' in args:
-        #     limit = args['limit']
-
-
         limit = args['limit']
         fromtime = args['fromtime']
         totime = args['totime']
 
         # Call DB Util for executing the request
         jsonObj = TimescaleUtil.getLocations(location=location, breakdown=breakdown,
-                                             historical=historical,limit=limit,fromtime=fromtime,totime=totime)
+                                             historical=historical, limit=limit, fromtime=fromtime, totime=totime)
 
         # format the response
         response = make_response(jsonObj)

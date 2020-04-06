@@ -6,7 +6,6 @@ from src.Utils import TimescaleUtil
 
 
 def IndiaScrap2DB():
-
     # Get India data
     dfRegion, metrics = Util.getIndiaData()
 
@@ -20,6 +19,7 @@ def IndiaScrap2DB():
 
     TimescaleUtil.insert2spread(dfRegion, "World", TimescaleUtil.LocationType.Country, usetimestampfromdataframe=False,
                                 cleanbeforeload=False, deletetodaysrecordsforlocation=True, location='India')
+
 
 def scheduleIT():
     # Define scheduler job
@@ -37,5 +37,13 @@ def ondemand():
     IndiaScrap2DB()
 
 
+def test():
+    location = 'India'
+    print(TimescaleUtil.getLocations(jsonformat=True,location=location))
+
+
 # Invoke in on-demand mode
-ondemand()
+#ondemand()
+#scheduleIT()test()
+
+#test()

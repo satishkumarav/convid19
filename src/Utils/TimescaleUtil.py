@@ -18,7 +18,7 @@ import time
 import configparser
 import enum
 import json
-from psycopg2.extras import RealDictCursor, DictCursor
+from psycopg2.extras import RealDictCursor, DictCursor, NamedTupleCursor
 
 
 # Enumeration consisting of column names
@@ -68,7 +68,7 @@ def getLocations(location=None, breakdown=False, historical=False, limit=1000, t
         if jsonformat:
             # Todo: Add logic to deal with prepared statement
             cursor = connection.cursor(cursor_factory=RealDictCursor)
-            #cursor = connection.cursor(cursor_factory=DictCursor)
+            #cursor = connection.cursor(cursor_factory=NamedTupleCursor)
             #cursor = connection.cursor()
 
         else:
@@ -106,13 +106,12 @@ def getLocations(location=None, breakdown=False, historical=False, limit=1000, t
                 if not timeflag:
                     cursor.execute(query, {'locationparent': location})
                 else:
-                    #cursor.execute(query, ({'locationparent': location}, {'fromtime': fromtime}, {'totime': totime}))
                     cursor.execute(query, ({'locationparent': location,'fromtime': fromtime, 'totime': totime}))
 
         if jsonformat:
-            result = cursor.fetchall()
-            newTDic(result)
-            return json.dumps(result, default=str)
+            result = json.dumps(cursor.fetchall(), default=str)
+            #newTDic(result)
+            return result
         else:
             return cursor.fetchall()
 
@@ -126,8 +125,10 @@ def getLocations(location=None, breakdown=False, historical=False, limit=1000, t
             # print("PostgreSQL connection is closed")
 
 def newTDic(result):
-    print(result)
-    #for dic in result: print("obj : " , dic)
+     print(result)
+     jsonObj = json.load(result)
+     print(jsonObj['location'])
+
 
 # Inserts the record to spread table
 def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.State, usetimestampfromdataframe=False,

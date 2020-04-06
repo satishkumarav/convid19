@@ -15,3 +15,6 @@ environment.properties
 tests/html/index.html
 .DS_Store
 src/.DS_Store
+.idea/dbnavigator.xml
+.idea/dbnavigator.xml
+src/.DS_Store

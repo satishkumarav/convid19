@@ -20,6 +20,7 @@ import enum
 import json
 from psycopg2.extras import RealDictCursor, DictCursor, NamedTupleCursor
 
+
 # Version 0.5
 # Enumeration consisting of column names
 class ColoumnName(enum.Enum):
@@ -68,8 +69,8 @@ def getLocations(location=None, breakdown=False, historical=False, limit=1000, t
         if jsonformat:
             # Todo: Add logic to deal with prepared statement
             cursor = connection.cursor(cursor_factory=RealDictCursor)
-            #cursor = connection.cursor(cursor_factory=NamedTupleCursor)
-            #cursor = connection.cursor()
+            # cursor = connection.cursor(cursor_factory=NamedTupleCursor)
+            # cursor = connection.cursor()
 
         else:
             cursor = connection.cursor()
@@ -106,11 +107,11 @@ def getLocations(location=None, breakdown=False, historical=False, limit=1000, t
                 if not timeflag:
                     cursor.execute(query, {'locationparent': location})
                 else:
-                    cursor.execute(query, ({'locationparent': location,'fromtime': fromtime, 'totime': totime}))
+                    cursor.execute(query, ({'locationparent': location, 'fromtime': fromtime, 'totime': totime}))
 
         if jsonformat:
-            result = json.dumps(cursor.fetchall(), default=str)
-            #newTDic(result)
+            res = transform(cursor.fetchall())
+            result = json.dumps(res, default=str)
             return result
         else:
             return cursor.fetchall()
@@ -122,12 +123,17 @@ def getLocations(location=None, breakdown=False, historical=False, limit=1000, t
         if (connection):
             cursor.close()
             connection.close()
-            # print("PostgreSQL connection is closed")
 
-def newTDic(result):
-     print(result)
-     jsonObj = json.load(result)
-     print(jsonObj['location'])
+def transform(result):
+    finalRes = {}
+    # print(result)
+    for x in result:
+        if x['location'] in finalRes:
+        #if finalRes[x["location"]]:
+            finalRes[x["location"]].append(x)
+        else:
+            finalRes[x["location"]] = [x]
+    return finalRes
 
 
 # Inserts the record to spread table

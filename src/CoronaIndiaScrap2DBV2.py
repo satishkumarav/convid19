@@ -23,7 +23,7 @@ def IndiaScrap2DB():
 
 def scheduleIT():
     # Define scheduler job
-    schedule.every(3).hours.do(IndiaScrap2DB)
+    schedule.every(1).hours.do(IndiaScrap2DB)
 
     # run the scheduler
     while True:
@@ -43,7 +43,7 @@ def test():
 
 
 # Invoke in on-demand mode
-ondemand()
-#scheduleIT()test()
+#ondemand()
+scheduleIT()test()
 
 #test()

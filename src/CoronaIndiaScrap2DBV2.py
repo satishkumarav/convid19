@@ -43,7 +43,8 @@ def test():
 
 
 # Invoke in on-demand mode
-#ondemand()
-scheduleIT()test()
+ondemand()
+#scheduleIT()
+#test()
 
 #test()

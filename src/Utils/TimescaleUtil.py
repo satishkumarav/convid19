@@ -18,6 +18,7 @@ import time
 import configparser
 import enum
 import json
+import os
 from psycopg2.extras import RealDictCursor, DictCursor, NamedTupleCursor
 
 
@@ -57,8 +58,7 @@ class LocationType(enum.Enum):
 
 def getLocations(location=None, breakdown=False, historical=False, limit=1000, totime=None, fromtime=None):
     # Read Configuration Information
-    config = configparser.ConfigParser()
-    config.read('../environment.properties')
+    config = getConfigParser()
     CONNECTIONURI = config['DB']['DBURL']
     jsonformat = True
     timeflag = False
@@ -141,8 +141,7 @@ def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.St
                   cleanbeforeload=False, deletetodaysrecordsforparentlocation=False,
                   deletetodaysrecordsforlocation=False, location=""):
     # Read Configuration Information
-    config = configparser.ConfigParser()
-    config.read('../environment.properties')
+    config = getConfigParser()
     CONNECTIONURI = config['DB']['DBURL']
 
     # Write data to Timescale DB
@@ -198,3 +197,15 @@ def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.St
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
+
+# Get Configuration Parser
+def getConfigParser():
+    try:
+        # Read Configuration Information
+        config = configparser.ConfigParser()
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        fpath = os.path.join(basedir, "environment.properties")
+        config.read(fpath)
+        return config
+    except Exception as error:
+        print("Unable to read configuration file due to " ,error)

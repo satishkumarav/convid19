@@ -11,7 +11,7 @@
 .idea/convid19.iml
 .idea/dbnavigator.xml
 .DS_Store
-environment.properties
+src/Utils/environment.properties
 tests/html/index.html
 .DS_Store
 src/.DS_Store

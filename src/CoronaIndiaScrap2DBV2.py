@@ -1,8 +1,8 @@
 import pandas as pd
 import schedule
 import time
-from src.Utils import Util
 from src.Utils import TimescaleUtil
+from src.Utils import Util
 
 # Version 0.5
 def IndiaScrap2DB():
@@ -39,12 +39,10 @@ def ondemand():
 
 def test():
     location = 'India'
-    print(TimescaleUtil.getLocations(jsonformat=True,location=location))
+    print(TimescaleUtil.getLocations(jsonformat=True, location=location))
 
 
 # Invoke in on-demand mode
 ondemand()
-#scheduleIT()
-#test()
-
-#test()
+# scheduleIT()
+# test()

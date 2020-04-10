@@ -4,7 +4,8 @@ import schedule
 import time
 from datetime import datetime
 
-from src.Utils import TimescaleUtil, Util
+from src.Utils import TimescaleUtil
+from src.Utils import Util
 
 
 def getInt(value):

@@ -44,5 +44,5 @@ def test():
 
 # Invoke in on-demand mode
 ondemand()
-# scheduleIT()
+scheduleIT()
 # test()

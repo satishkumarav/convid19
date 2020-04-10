@@ -15,13 +15,10 @@ def getInt(value):
 
 
 def loadfromcsv(region_ts_file, locationParent, locationtype,clean):
-    # Extract Statewise table data
-    # columns = ['TimestampUTC', 'NameofState/UT', 'Totalconfirmed', 'Death', 'Cured/Discharged/Migrated',
-    #            'TotalConfirmedcases(IndianNational)', 'TotalConfirmedcases(ForeignNational)', 'MortalityRate']
 
     columns = TimescaleUtil.getSpreadColumnNames()
 
-    # Wite region wise data in Timeseries file
+    # Write region wise data in Timeseries file
     utc = pytz.utc
     timestamp = datetime.date(datetime.now(tz=utc))
 
@@ -43,7 +40,6 @@ def loadfromcsv(region_ts_file, locationParent, locationtype,clean):
             rwdata[TimescaleUtil.ColoumnName.MortalityRate.value] = getInt(getInt(row[7]) / getInt(row[8]))
             dfRegion = dfRegion.append(rwdata, ignore_index=True)
 
-        print(dfRegion.head(10))
         TimescaleUtil.insert2spread(dfRegion, locationParent, locationtype, usetimestampfromdataframe=True,
                                     cleanbeforeload=clean)
     except ValueError:

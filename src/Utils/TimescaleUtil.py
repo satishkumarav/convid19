@@ -205,6 +205,7 @@ def getConfigParser():
         config = configparser.ConfigParser()
         basedir = os.path.abspath(os.path.dirname(__file__))
         fpath = os.path.join(basedir, "environment.properties")
+        print ("looking for environment.properties file in ", fpath)
         config.read(fpath)
         return config
     except Exception as error:

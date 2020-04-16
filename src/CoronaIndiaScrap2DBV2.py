@@ -21,6 +21,12 @@ def IndiaScrap2DB():
                                 cleanbeforeload=False, deletetodaysrecordsforlocation=True, location='India')
 
 
+def Telangana2DB():
+    dfRegion = Util.getTelananaDistrictData()
+    # Insert statewise records for India
+    TimescaleUtil.insert2spread(dfRegion, "Telangana", TimescaleUtil.LocationType.District, usetimestampfromdataframe=False,
+                                cleanbeforeload=False, deletetodaysrecordsforparentlocation=True)
+
 def scheduleIT():
     # Define scheduler job
     schedule.every(1).hours.do(IndiaScrap2DB)
@@ -32,17 +38,18 @@ def scheduleIT():
         schedule.run_pending()
         time.sleep(1)
 
+def telangana2DB():
+   Util.telanganaWriteToday()
+
 
 def ondemand():
     IndiaScrap2DB()
 
 
 def test():
-    location = 'India'
-    print(TimescaleUtil.getLocations(jsonformat=True, location=location))
-
+    telangana2DB()
 
 # Invoke in on-demand mode
-ondemand()
+#ondemand()
 scheduleIT()
-# test()
+#test()

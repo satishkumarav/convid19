@@ -43,6 +43,12 @@ def getSpreadColumnNames():
                ColoumnName.TotalConfirmedcases_ForeignNational.value, ColoumnName.MortalityRate.value]
     return columns
 
+def getSpreadColumnNamesWoTS():
+    columns = [ColoumnName.NameofState_UT.value, ColoumnName.Totalconfirmed.value,
+               ColoumnName.Death.value, ColoumnName.Cured_Discharged_Migrated.value,
+               ColoumnName.TotalConfirmedcases_IndianNational.value,
+               ColoumnName.TotalConfirmedcases_ForeignNational.value, ColoumnName.MortalityRate.value]
+    return columns
 
 # Enumeration of Location Type
 class LocationType(enum.Enum):
@@ -139,7 +145,7 @@ def transform(result):
 # Inserts the record to spread table
 def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.State, usetimestampfromdataframe=False,
                   cleanbeforeload=False, deletetodaysrecordsforparentlocation=False,
-                  deletetodaysrecordsforlocation=False, location=""):
+                  deletetodaysrecordsforlocation=False, location="",source="MOHI"):
     # Read Configuration Information
     config = getConfigParser()
     CONNECTIONURI = config['DB']['DBURL']
@@ -181,10 +187,10 @@ def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.St
                 tmpstamp = utc_datetime.replace(microsecond=0)
 
             cursor.execute(
-                "INSERT INTO SPREAD (timestampz,location, locationKey, locationparent,locationtype,totalconfirmation,totaldeath,totalrecovered,totallocaltransmission,totalexternaltransmission,motalityrate) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING",
+                "INSERT INTO SPREAD (timestampz,location, locationKey, locationparent,locationtype,totalconfirmation,totaldeath,totalrecovered,totallocaltransmission,totalexternaltransmission,motalityrate,source) VALUES (%s,%s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING",
                 (tmpstamp, location, locationKey, locationparent, locationtype.value, totalconfirmation, totaldeath,
                  totalrecovered,
-                 totallocaltransmission, totalexternaltransmission, motalityrate))
+                 totallocaltransmission, totalexternaltransmission, motalityrate,source))
 
         connection.commit()
 

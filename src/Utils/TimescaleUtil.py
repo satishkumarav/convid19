@@ -193,6 +193,7 @@ def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.St
                  totallocaltransmission, totalexternaltransmission, motalityrate,source))
 
         connection.commit()
+        print("Data inserted into the database")
 
 
     except (Exception, psycopg2.Error) as error:

@@ -8,9 +8,10 @@ import feedparser
 import tabula
 
 from src.Utils import TimescaleUtil
+from src.Utils.TimescaleUtil import ColoumnName
 
 
-# Version 0.6
+# Version 0.7
 # returns UTC Datatime object for given date
 def getUTC(date_string, format='%d/%m/%y %I:%M %p'):
     my_date = datetime.strptime(date_string, format)
@@ -124,15 +125,15 @@ def getTelananaDistrictData():
     for entry in newsfeed.entries:
         link = entry.link
         dte = cleanse(entry.title)
-        dtpdf = datetime.strptime(dte, '%d %B %Y')
+        dtobj = datetime.strptime(dte, '%d %B %Y')
         if ".pdf" in link:
             if "#new_tab" in link:
                 link = link.replace("#new_tab", "")
             df = tabula.read_pdf(link, pages=1, area=[362, 0, 900, 590], multiple_tables=False, lattice=True)
             if len(df) > 0:
                 break
-
-    return telanganaparseV2(link, df), dtpdf
+    dfRegion = telanganaparseV2(link, df, dtobj)
+    return dfRegion, dtobj
 
 
 def telanganaRSSFeed():
@@ -143,7 +144,10 @@ def telanganaRSSFeed():
     return newsfeed
 
 
-def telanganaparseV1(link, df):
+def telanganaparseV1(link, df, dtobj):
+
+
+
     # Initalize metrics
     print(df)
     columns = TimescaleUtil.getSpreadColumnNamesWoTS()
@@ -164,6 +168,7 @@ def telanganaparseV1(link, df):
                 confirmed_internal = 0
                 confirmed_external = 0
                 motalityrate = dead / confirmed
+                rwdata.append(dtobj.strftime('%Y-%m-%d %H:%M:%S'))
                 rwdata.append(location)
                 rwdata.append(confirmed)
                 rwdata.append(dead)
@@ -177,9 +182,9 @@ def telanganaparseV1(link, df):
     dfRegion = pd.DataFrame(data=tabledata, columns=columns)
 
 
-def telanganaparseV2(link, df):
+def telanganaparseV2(link, df, dtobj):
     # Initalize metrics
-    columns = TimescaleUtil.getSpreadColumnNamesWoTS()
+    columns = TimescaleUtil.getSpreadColumnNames()
     metrics = {}
     tabledata = []
     # Extract data from dataframe
@@ -197,6 +202,7 @@ def telanganaparseV2(link, df):
                 confirmed_internal = 0
                 confirmed_external = 0
                 motalityrate = dead / confirmed
+                rwdata.append(dtobj.strftime('%Y-%m-%d %H:%M:%S'))
                 rwdata.append(location)
                 rwdata.append(confirmed)
                 rwdata.append(dead)

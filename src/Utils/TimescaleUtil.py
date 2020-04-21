@@ -145,7 +145,7 @@ def transform(result):
 # Inserts the record to spread table
 def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.State, usetimestampfromdataframe=False,
                   cleanbeforeload=False, deletetodaysrecordsforparentlocation=False,
-                  deletetodaysrecordsforlocation=False, location="",source="MOHI"):
+                  deletetodaysrecordsforlocation=False, location="",source=None):
     # Read Configuration Information
     config = getConfigParser()
     CONNECTIONURI = config['DB']['DBURL']
@@ -160,15 +160,18 @@ def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.St
         connection = psycopg2.connect(CONNECTIONURI)
         cursor = connection.cursor()
         # Cleanse the the table before reload
+        if source is None:
+            source = getSourceQueryString(location)
+
         if cleanbeforeload:
-            query = "DELETE from SPREAD WHERE locationparent = %s"
-            cursor.execute(query, (locationparent,))
+            query = "DELETE from SPREAD WHERE locationparent = %s and source = %s"
+            cursor.execute(query, (locationparent,source))
         if deletetodaysrecordsforparentlocation:
-            query = "DELETE from spread where DATE_TRUNC('day',timestampz) >= DATE_TRUNC('day',now()) AND locationparent = %s"
-            cursor.execute(query, (locationparent,))
+            query = "DELETE from spread where DATE_TRUNC('day',timestampz) >= DATE_TRUNC('day',now()) AND locationparent = %s and source = %s"
+            cursor.execute(query, (locationparent, source))
         if deletetodaysrecordsforlocation:
-            query = "DELETE from spread where DATE_TRUNC('day',timestampz) >= DATE_TRUNC('day',now()) AND location = %s"
-            cursor.execute(query, (location,))
+            query = "DELETE from spread where DATE_TRUNC('day',timestampz) >= DATE_TRUNC('day',now()) AND location = %s and source = %s"
+            cursor.execute(query, (location, source))
 
         # Writing the statewise records
         for idx, row in dfRegion.iterrows():
@@ -204,6 +207,21 @@ def insert2spread(dfRegion, locationparent="India", locationtype=LocationType.St
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
+
+# Returns default source string
+def getSourceQueryString(location):
+    srcqrystr = None
+    # MOHI
+    # JHCSEE
+    # MOHRJ
+    # MOHT
+    srcDict = dict({"India": "MOHI", "Telangana": "MOHT", "Rajasthan": "MOHRJ", "World": "JHCSEE"})
+    srcQry = srcDict[location]
+    # Todo: Incase in abmigious situation, you search whole data base
+    if srcQry == None:
+        srcQry = "MOHI"
+
+    return srcQry
 
 # Get Configuration Parser
 def getConfigParser():

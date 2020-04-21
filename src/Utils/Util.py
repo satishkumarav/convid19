@@ -9,6 +9,7 @@ import tabula
 
 from src.Utils import TimescaleUtil
 from src.Utils.TimescaleUtil import ColoumnName
+from src.Utils.DataAdapterFactory import DataSourceAdapterFactory,SourceAdapterNames,DataSourceAdapter
 
 
 # Version 0.7
@@ -116,6 +117,16 @@ def getIndiaData():
 
     return dfRegion, metrics
 
+def getRajasthanData() -> DataSourceAdapter:
+    adapter = DataSourceAdapterFactory.getDataSourceAdapter(SourceAdapterNames.RajasthanSourceAdapter.value)
+    adapter.load()
+    return adapter
+
+
+def getPunjabData() -> DataSourceAdapter:
+    adapter = DataSourceAdapterFactory.getDataSourceAdapter(SourceAdapterNames.PunjabSourceDataAdapter.value)
+    adapter.load()
+    return adapter
 
 def getTelananaDistrictData():
     # Parse RSS feed
@@ -143,10 +154,7 @@ def telanganaRSSFeed():
     newsfeed = feedparser.parse(url)
     return newsfeed
 
-
 def telanganaparseV1(link, df, dtobj):
-
-
 
     # Initalize metrics
     print(df)

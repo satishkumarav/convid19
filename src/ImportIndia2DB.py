@@ -88,10 +88,12 @@ def loadfromcsvformatV2(region_ts_file, locationParent, locationtype, clean=Fals
                 rwdata[TimescaleUtil.ColoumnName.MortalityRate.value] = motality
 
                 if datefrom <= dtecompare <= dateto:
-                    if not location == 'India':
-                        dfRegion = dfRegion.append(rwdata, ignore_index=True)
-                    else:
-                        print("Igonore row for ",location)
+                    dfRegion = dfRegion.append(rwdata, ignore_index=True)
+
+                    # if not location == 'India':
+                    #     dfRegion = dfRegion.append(rwdata, ignore_index=True)
+                    # else:
+                    #     print("Igonore row for ",location)
 
         print(dfRegion)
         TimescaleUtil.insert2spread(dfRegion, locationParent, locationtype, usetimestampfromdataframe=True,
@@ -118,7 +120,7 @@ def loadhistoricalIndiastatedata():
 
 
 def loadhistoricalWorldData():
-    datafrom = '2020-04-17'  # Load from this date
+    datafrom = '2020-04-18'  # Load from this date
     datato = '2020-04-30'  # Load from this date
     region_ts_file = "../datasets/world/all.csv"
     locationParent = "World"

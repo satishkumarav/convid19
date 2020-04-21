@@ -34,7 +34,9 @@ class DataSourceAdapter(ABC):
         self.dfSummary = None
         self.metrics = []
         self.sourceofdata = None
-        self.dtestr = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        utc = pytz.utc
+        timestamp = datetime.date(datetime.now(tz=utc))
+        self.dtestr = timestamp.strftime("%Y-%m-%d %H:%M:%S")
         self.columns = TimescaleUtil.getSpreadColumnNames()
         print("Loaded the configuration information")
 

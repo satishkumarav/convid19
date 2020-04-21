@@ -13,14 +13,14 @@ def IndiaScrap2DB():
 
     # Insert statewise records for India
     TimescaleUtil.insert2spread(dfRegion, "India", TimescaleUtil.LocationType.State, usetimestampfromdataframe=False,
-                                cleanbeforeload=False, deletetodaysrecordsforparentlocation=True)
+                                cleanbeforeload=False, deletetodaysrecordsforparentlocation=True,source="MOHI")
     # Insert India Summary Record
     columns = TimescaleUtil.getSpreadColumnNames()
     dfRegion = pd.DataFrame(columns=columns)
     dfRegion = dfRegion.append(metrics, ignore_index=True)
 
     TimescaleUtil.insert2spread(dfRegion, "World", TimescaleUtil.LocationType.Country, usetimestampfromdataframe=False,
-                                cleanbeforeload=False, deletetodaysrecordsforlocation=True, location='India')
+                                cleanbeforeload=False, deletetodaysrecordsforlocation=True, location='India',source="MOHI")
 
 
 def Telangana2DB():
@@ -100,6 +100,6 @@ def test():
 
 
 # Invoke in on-demand mode
-# ondemand()
-scheduleIT()
+ondemand()
+#scheduleIT()
 # test()

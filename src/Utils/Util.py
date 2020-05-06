@@ -55,6 +55,8 @@ def getIndiaData():
                     thvalue = coltoken.strip().replace(" ", "").replace(",", "")
                     if thvalue.startswith('TotalConfirmedcases'):
                         thvalue = "TotalConfirmedcases*"
+                    if thvalue.startswith('Death'):
+                        thvalue = TimescaleUtil.ColoumnName.Death.value
                     columns.append(thvalue)
                 colCount = colCount + 1
         elif 0 < count < size - 3:
@@ -125,6 +127,12 @@ def getRajasthanData() -> DataSourceAdapter:
 
 def getPunjabData() -> DataSourceAdapter:
     adapter = DataSourceAdapterFactory.getDataSourceAdapter(SourceAdapterNames.PunjabSourceDataAdapter.value)
+    adapter.load()
+    return adapter
+
+
+def getWorldData() -> DataSourceAdapter:
+    adapter = DataSourceAdapterFactory.getDataSourceAdapter(SourceAdapterNames.WorldSourceAdapter.value)
     adapter.load()
     return adapter
 

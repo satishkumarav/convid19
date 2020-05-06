@@ -9,18 +9,24 @@ from src.Utils.DataAdapterFactory import DataSourceAdapter
 # Version 0.5
 def IndiaScrap2DB():
     # Get India data
-    dfRegion, metrics = Util.getIndiaData()
+    try:
+        dfRegion, metrics = Util.getIndiaData()
 
-    # Insert statewise records for India
-    TimescaleUtil.insert2spread(dfRegion, "India", TimescaleUtil.LocationType.State, usetimestampfromdataframe=False,
-                                cleanbeforeload=False, deletetodaysrecordsforparentlocation=True,source="MOHI")
-    # Insert India Summary Record
-    columns = TimescaleUtil.getSpreadColumnNames()
-    dfRegion = pd.DataFrame(columns=columns)
-    dfRegion = dfRegion.append(metrics, ignore_index=True)
+        # Insert statewise records for India
+        TimescaleUtil.insert2spread(dfRegion, "India", TimescaleUtil.LocationType.State,
+                                    usetimestampfromdataframe=False,
+                                    cleanbeforeload=False, deletetodaysrecordsforparentlocation=True, source="MOHI")
+        # Insert India Summary Record
+        columns = TimescaleUtil.getSpreadColumnNames()
+        dfRegion = pd.DataFrame(columns=columns)
+        dfRegion = dfRegion.append(metrics, ignore_index=True)
 
-    TimescaleUtil.insert2spread(dfRegion, "World", TimescaleUtil.LocationType.Country, usetimestampfromdataframe=False,
-                                cleanbeforeload=False, deletetodaysrecordsforlocation=True, location='India',source="MOHI")
+        TimescaleUtil.insert2spread(dfRegion, "World", TimescaleUtil.LocationType.Country,
+                                    usetimestampfromdataframe=False,
+                                    cleanbeforeload=False, deletetodaysrecordsforlocation=True, location='India',
+                                    source="MOHI")
+    except Exception as e:
+        print("Getting Error for India", e)
 
 
 def Telangana2DB():
@@ -33,44 +39,77 @@ def Telangana2DB():
 
 
 def Rajasthan2DB():
-    adapter = Util.getRajasthanData()
-    # Since it is districtwise records, cleanup all records having same locationparent and source
-    TimescaleUtil.insert2spread(adapter.dfRegion, adapter.parentregion, TimescaleUtil.LocationType.District,
-                                usetimestampfromdataframe=True,
-                                cleanbeforeload=False, deletetodaysrecordsforparentlocation=True,
-                                source=adapter.sourceofdata)
+    try:
+        adapter = Util.getRajasthanData()
+        # Since it is district wise records, cleanup all records having same locationparent and source
+        TimescaleUtil.insert2spread(adapter.dfRegion, adapter.parentregion, TimescaleUtil.LocationType.District,
+                                    usetimestampfromdataframe=True,
+                                    cleanbeforeload=False, deletetodaysrecordsforparentlocation=True,
+                                    source=adapter.sourceofdata)
 
-    # Since it is state record, cleanup  record with location supplied and source
-    TimescaleUtil.insert2spread(adapter.dfSummary, "India", TimescaleUtil.LocationType.State,
-                                usetimestampfromdataframe=True,
-                                cleanbeforeload=False, deletetodaysrecordsforlocation=True,
-                                source=adapter.sourceofdata)
+        # Since it is state record, cleanup  record with location supplied and source
+        TimescaleUtil.insert2spread(adapter.dfSummary, "India", TimescaleUtil.LocationType.State,
+                                    usetimestampfromdataframe=True,
+                                    cleanbeforeload=False, deletetodaysrecordsforlocation=True,
+                                    source=adapter.sourceofdata)
 
-    print("Done & Dusted: Data should be there in db")
+        print("Done & Dusted: Data should be there in db")
+    except Exception as e:
+        print("Getting Error for Rajasthan", e)
 
 
 def Punjab2DB():
-    adapter = Util.getPunjabData()
-    print(adapter.dfRegion)
-    print(adapter.dfSummary)
-    # Since it is district wise records, cleanup all records having same locationparent and source
-    TimescaleUtil.insert2spread(adapter.dfRegion, adapter.parentregion, TimescaleUtil.LocationType.District,
-                                usetimestampfromdataframe=True,
-                                cleanbeforeload=False, deletetodaysrecordsforparentlocation=True,
-                                source=adapter.sourceofdata)
+    try:
+        adapter = Util.getPunjabData()
+        # print(adapter.dfRegion)
+        # print(adapter.dfSummary)
+        # Since it is district wise records, cleanup all records having same locationparent and source
+        TimescaleUtil.insert2spread(adapter.dfRegion, adapter.parentregion, TimescaleUtil.LocationType.District,
+                                    usetimestampfromdataframe=True,
+                                    cleanbeforeload=False, deletetodaysrecordsforparentlocation=True,
+                                    source=adapter.sourceofdata)
 
-    # Since it is state record, cleanup  record with location supplied and source
-    TimescaleUtil.insert2spread(adapter.dfSummary, "India", TimescaleUtil.LocationType.State,
-                                usetimestampfromdataframe=True,
-                                cleanbeforeload=False, deletetodaysrecordsforlocation=True,
-                                source=adapter.sourceofdata)
+        # Since it is state record, cleanup  record with location supplied and source
+        TimescaleUtil.insert2spread(adapter.dfSummary, "India", TimescaleUtil.LocationType.State,
+                                    usetimestampfromdataframe=True,
+                                    cleanbeforeload=False, deletetodaysrecordsforlocation=True,
+                                    source=adapter.sourceofdata)
 
-    print("Done & Dusted: Data should be there in db")
+        print("Done & Dusted: Data should be there in db")
+    except Exception as e:
+        print("Getting Error for Punjab", e)
+
+
+def World2DB():
+    try:
+        adapter = Util.getWorldData()
+        print(adapter.dfRegion)
+        print(adapter.dfSummary)
+        # Since it is district wise records, cleanup all records having same locationparent and source
+        # TimescaleUtil.insert2spread(adapter.dfRegion, adapter.parentregion, TimescaleUtil.LocationType.Country,
+        #                             usetimestampfromdataframe=True,
+        #                             cleanbeforeload=False, deletetodaysrecordsforparentlocation=True,
+        #                             source=adapter.sourceofdata)
+        #
+        # # Since it is state record, cleanup  record with location supplied and source
+        # TimescaleUtil.insert2spread(adapter.dfSummary, "World", TimescaleUtil.LocationType.World,
+        #                             usetimestampfromdataframe=True,
+        #                             cleanbeforeload=False, deletetodaysrecordsforlocation=True,
+        #                             source=adapter.sourceofdata)
+        # print("Done & Dusted: Data should be there in db")
+    except Exception as e:
+        print("Getting Error for World", e)
+
 
 def scrapstates():
+    # print("Punjab")
     Punjab2DB()
-    Rajasthan2DB()
+    # print("Rajasthan")
+    # print("India")
     IndiaScrap2DB()
+
+
+# World2DB()
 
 
 def scheduleIT():
@@ -90,16 +129,15 @@ def telangana2File():
 
 
 def ondemand():
-    IndiaScrap2DB()
+    scrapstates()
 
 
-def test():
-    # telangana2File()
-    # Rajasthan2DB()
-    Punjab2DB()
+    # def test():
+    #     # Punjab2DB()
 
 
-# Invoke in on-demand mode
-ondemand()
-#scheduleIT()
-# test()
+    # Invoke in on-demand mode
+    # ondemand()
+
+
+scheduleIT()

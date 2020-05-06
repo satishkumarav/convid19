@@ -120,7 +120,7 @@ def loadhistoricalIndiastatedata():
 
 
 def loadhistoricalWorldData():
-    datafrom = '2020-04-18'  # Load from this date
+    datafrom = '2020-04-28'  # Load from this date
     datato = '2020-04-30'  # Load from this date
     region_ts_file = "../datasets/world/all.csv"
     locationParent = "World"

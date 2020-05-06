@@ -1,0 +1,110 @@
+timestampz,location,locationtype,locationparent,locationkey,totalconfirmation,totaldeath,totalrecovered,totallocaltransmission,totalexternaltransmission,motalityrate,source
+29/04/20 8:36,AndhraPradesh,State,India,India.AndhraPradesh,1259,31,258,1259,0,2.46,MOHI
+29/04/20 8:36,ArunachalPradesh,State,India,India.ArunachalPradesh,1,0,1,1,0,0,MOHI
+29/04/20 8:36,HimachalPradesh,State,India,India.HimachalPradesh,40,1,25,40,0,2.5,MOHI
+29/04/20 8:36,Manipur,State,India,India.Manipur,2,0,2,2,0,0,MOHI
+29/04/20 8:36,Rajasthan,State,India,India.Rajasthan,2364,51,768,2364,0,2.16,MOHI
+29/04/20 8:36,TamilNadu,State,India,India.TamilNadu,2058,25,1168,2058,0,1.21,MOHI
+29/04/20 8:36,AndamanandNicobarIslands,State,India,India.AndamanandNicobarIslands,33,0,15,33,0,0,MOHI
+29/04/20 8:36,Delhi,State,India,India.Delhi,3314,54,1078,3314,0,1.63,MOHI
+29/04/20 8:36,Goa,State,India,India.Goa,7,0,7,7,0,0,MOHI
+29/04/20 8:36,Haryana,State,India,India.Haryana,310,3,209,310,0,0.97,MOHI
+29/04/20 8:36,JammuandKashmir,State,India,India.JammuandKashmir,565,8,176,565,0,1.42,MOHI
+29/04/20 8:36,MadhyaPradesh,State,India,India.MadhyaPradesh,2387,120,377,2387,0,5.03,MOHI
+29/04/20 8:36,Maharashtra,State,India,India.Maharashtra,9318,400,1388,9318,0,4.29,MOHI
+29/04/20 8:36,Meghalaya,State,India,India.Meghalaya,12,1,0,12,0,8.33,MOHI
+29/04/20 8:36,UttarPradesh,State,India,India.UttarPradesh,2053,34,462,2053,0,1.66,MOHI
+29/04/20 8:36,Chandigarh,State,India,India.Chandigarh,56,0,17,56,0,0,MOHI
+29/04/20 8:36,Chhattisgarh,State,India,India.Chhattisgarh,38,0,34,38,0,0,MOHI
+29/04/20 8:36,Gujarat,State,India,India.Gujarat,3744,181,434,3744,0,4.83,MOHI
+29/04/20 8:36,Jharkhand,State,India,India.Jharkhand,103,3,17,103,0,2.91,MOHI
+29/04/20 8:36,Karnataka,State,India,India.Karnataka,523,20,207,523,0,3.82,MOHI
+29/04/20 8:36,Kerala,State,India,India.Kerala,485,4,359,485,0,0.82,MOHI
+29/04/20 8:36,Ladakh,State,India,India.Ladakh,22,0,16,22,0,0,MOHI
+29/04/20 8:36,Mizoram,State,India,India.Mizoram,1,0,0,1,0,0,MOHI
+29/04/20 8:36,Odisha,State,India,India.Odisha,118,1,38,118,0,0.85,MOHI
+29/04/20 8:36,Telangana,State,India,India.Telangana,1004,26,321,1004,0,2.59,MOHI
+29/04/20 8:36,Tripura,State,India,India.Tripura,2,0,2,2,0,0,MOHI
+29/04/20 8:36,Assam,State,India,India.Assam,38,1,27,38,0,2.63,MOHI
+29/04/20 8:36,Bihar,State,India,India.Bihar,366,2,64,366,0,0.55,MOHI
+29/04/20 8:36,Puducherry,State,India,India.Puducherry,8,0,3,8,0,0,MOHI
+29/04/20 8:36,Punjab,State,India,India.Punjab,322,19,71,322,0,5.9,MOHI
+29/04/20 8:36,Uttarakhand,State,India,India.Uttarakhand,54,0,33,54,0,0,MOHI
+timestampz,location,locationtype,locationparent,locationkey,totalconfirmation,totaldeath,totalrecovered,totallocaltransmission,totalexternaltransmission,motalityrate,source
+30/04/20 8:36,AndhraPradesh,State,India,India.AndhraPradesh,1303,31,258,1303,0,2.46,MOHI
+01/05/20 8:36,AndhraPradesh,State,India,India.AndhraPradesh,1347,33,287,1347,0,0.02,MOHI
+02/05/20 8:36,AndhraPradesh,State,India,India.AndhraPradesh,1525,33,441,1525,0,0.02,MOHI
+03/05/20 8:36,AndhraPradesh,State,India,India.AndhraPradesh,1543,33,448,1543,0,0.02,MOHI
+30/04/20 8:36,AndamanandNicobarIslands,State,India,India.AndamanandNicobarIslands,33,0,15,33,0,0.00,MOHI
+01/05/20 8:36,AndamanandNicobarIslands,State,India,India.AndamanandNicobarIslands,33,0,16,33,0,0.00,MOHI
+02/05/20 8:36,AndamanandNicobarIslands,State,India,India.AndamanandNicobarIslands,34,0,17,34,0,0.00,MOHI
+03/05/20 8:36,AndamanandNicobarIslands,State,India,India.AndamanandNicobarIslands,34,0,18,34,0,0.00,MOHI
+30/04/20 8:36,ArunachalPradesh,State,India,India.ArunachalPradesh,0,0,0,0,0,0.00,MOHI
+01/05/20 8:36,ArunachalPradesh,State,India,India.ArunachalPradesh,0,0,0,0,0,0.00,MOHI
+02/05/20 8:36,ArunachalPradesh,State,India,India.ArunachalPradesh,0,0,0,0,0,0.00,MOHI
+03/05/20 8:36,ArunachalPradesh,State,India,India.ArunachalPradesh,0,0,0,0,0,0.00,MOHI
+30/04/20 8:36,Assam,State,India,India.Assam,42,1,29,42,0,2.63,MOHI
+01/05/20 8:36,Assam,State,India,India.Assam,42,1,29,42,0,0.02,MOHI
+02/05/20 8:36,Assam,State,India,India.Assam,43,1,32,43,0,0.02,MOHI
+03/05/20 8:36,Assam,State,India,India.Assam,43,1,32,43,0,0.02,MOHI
+30/04/20 8:36,Bihar,State,India,India.Bihar,403,2,65,403,0,0.00,MOHI
+01/05/20 8:36,Bihar,State,India,India.Bihar,426,2,82,426,0,0.00,MOHI
+02/05/20 8:36,Bihar,State,India,India.Bihar,470,2,98,470,0,0.00,MOHI
+03/05/20 8:36,Bihar,State,India,India.Bihar,480,2,117,480,0,0.00,MOHI
+30/04/20 8:36,Chandigarh,State,India,India.Chandigarh,56,0,17,56,0,0.00,MOHI
+01/05/20 8:36,Chandigarh,State,India,India.Chandigarh,56,0,17,56,0,0.00,MOHI
+02/05/20 8:36,Chandigarh,State,India,India.Chandigarh,88,0,17,88,0,0.00,MOHI
+03/05/20 8:36,Chandigarh,State,India,India.Chandigarh,94,0,19,94,0,0.00,MOHI
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+30/04/20 8:36,,,,,40,1,25,40,0,2.5,MOHI
+30/04/20 8:36,,,,,2,0,2,2,0,0,MOHI
+30/04/20 8:36,,,,,2364,51,768,2364,0,2.16,MOHI
+30/04/20 8:36,HimachalPradesh,State,India,India.HimachalPradesh,2058,25,1168,2058,0,1.21,MOHI
+,Manipur,State,India,India.Manipur,,,,,,,
+30/04/20 8:36,Rajasthan,State,India,India.Rajasthan,3314,54,1078,3314,0,1.63,MOHI
+30/04/20 8:36,TamilNadu,State,India,India.TamilNadu,7,0,7,7,0,0,MOHI
+30/04/20 8:36,,,,,310,3,209,310,0,0.97,MOHI
+30/04/20 8:36,Delhi,State,India,India.Delhi,565,8,176,565,0,1.42,MOHI
+30/04/20 8:36,Goa,State,India,India.Goa,2387,120,377,2387,0,5.03,MOHI
+30/04/20 8:36,Haryana,State,India,India.Haryana,9318,400,1388,9318,0,4.29,MOHI
+30/04/20 8:36,JammuandKashmir,State,India,India.JammuandKashmir,12,1,0,12,0,8.33,MOHI
+30/04/20 8:36,MadhyaPradesh,State,India,India.MadhyaPradesh,2053,34,462,2053,0,1.66,MOHI
+30/04/20 8:36,Maharashtra,State,India,India.Maharashtra,56,0,17,56,0,0,MOHI
+30/04/20 8:36,Meghalaya,State,India,India.Meghalaya,38,0,34,38,0,0,MOHI
+30/04/20 8:36,UttarPradesh,State,India,India.UttarPradesh,3744,181,434,3744,0,4.83,MOHI
+,,,,,,,,,,,
+30/04/20 8:36,Chhattisgarh,State,India,India.Chhattisgarh,523,20,207,523,0,3.82,MOHI
+30/04/20 8:36,Gujarat,State,India,India.Gujarat,485,4,359,485,0,0.82,MOHI
+30/04/20 8:36,Jharkhand,State,India,India.Jharkhand,22,0,16,22,0,0,MOHI
+30/04/20 8:36,Karnataka,State,India,India.Karnataka,1,0,0,1,0,0,MOHI
+30/04/20 8:36,Kerala,State,India,India.Kerala,118,1,38,118,0,0.85,MOHI
+30/04/20 8:36,Ladakh,State,India,India.Ladakh,1004,26,321,1004,0,2.59,MOHI
+30/04/20 8:36,Mizoram,State,India,India.Mizoram,2,0,2,2,0,0,MOHI
+,Odisha,State,India,India.Odisha,,,,,,,
+30/04/20 8:36,Telangana,State,India,India.Telangana,366,2,64,366,0,0.55,MOHI
+30/04/20 8:36,Tripura,State,India,India.Tripura,8,0,3,8,0,0,MOHI
+30/04/20 8:36,,,,,322,19,71,322,0,5.9,MOHI
+30/04/20 8:36,Bihar,State,India,India.Bihar,54,0,33,54,0,0,MOHI
+,Puducherry,State,India,India.Puducherry,,,,,,,
+,Punjab,State,India,India.Punjab,,,,,,,
+,Uttarakhand,State,India,India.Uttarakhand,,,,,,,

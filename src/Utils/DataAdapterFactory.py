@@ -181,6 +181,59 @@ class PunjabSourceDataAdapter(DataSourceAdapter):
             print("Error Reading the URL: ", url)
 
 
+class WorldSourceDataAdapter(DataSourceAdapter):
+
+    def getParentRegion(self) -> str:
+        # parent region is mandatory,please return a string
+        return "WORLD"
+
+    def getSourceOfData(self) -> str:
+        return "JHCSEE"
+
+    def loadRegionalData(self):
+        # parent region is mandatory
+        url = self.config['WorldSourceAdapter']['WRLDURL']
+        context = ssl._create_unverified_context()
+        page = urllib.request.urlopen(url, context=context)
+        if page.status == 200:
+            content = page.read().decode('utf-8')
+            data = json.loads(content)
+            # Extract date
+            #print(data["dt"])
+            timestamp = datetime.strptime(data["dt"],"%m-%d-%Y")
+            self.dtestr = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+
+            tabledata = []
+            for item in data["data"]:
+                rwdata = []
+                locationparent = "World"
+                location = item["location"]
+                confirmed = item["confirmed"]
+                dead = item["deaths"]
+                recovered = item["recovered"]
+                confirmed_internal = 0
+                confirmed_external = 0
+                if confirmed > 0 :
+                    motalityrate = dead / confirmed
+                else:
+                    motalityrate = 0
+                rwdata.append(self.dtestr)
+                rwdata.append(location)
+                rwdata.append(confirmed)
+                rwdata.append(dead)
+                rwdata.append(recovered)
+                rwdata.append(confirmed_internal)
+                rwdata.append(confirmed_external)
+                rwdata.append(motalityrate)
+                tabledata.append(rwdata)
+            dfRegion = pd.DataFrame(data=tabledata, columns=self.columns)
+            self.dfRegion = dfRegion
+        else:
+            print("Error Reading the URL: ", url)
+
+
+
+
 # Class represents the application configuration class
 class Configuration():
     config = None
@@ -206,16 +259,20 @@ class DataSourceAdapterFactory():
 
         if adaptername == SourceAdapterNames.PunjabSourceDataAdapter.value:
             return PunjabSourceDataAdapter()
+
+        if adaptername == SourceAdapterNames.WorldSourceAdapter.value:
+            return WorldSourceDataAdapter()
+
         else:
             return None
 
 
 def test():
     print("Test program")
-    adapter = DataSourceAdapterFactory.getDataSourceAdapter(SourceAdapterNames.RajasthanSourceAdapter.value)
+    adapter = DataSourceAdapterFactory.getDataSourceAdapter(SourceAdapterNames.WorldSourceAdapter.value)
     adapter.load()
     # print(adapter.dfRegion)
     # print(adapter.dfSummary)
 
 
-test()
+#test()

@@ -59,7 +59,7 @@ def getIndiaData():
                         thvalue = TimescaleUtil.ColoumnName.Death.value
                     columns.append(thvalue)
                 colCount = colCount + 1
-        elif 0 < count < size - 3:
+        elif 0 < count < size - 4:
             # data row
             rwdata = []
             cont = trtag.text.strip().replace("\n", "~")

@@ -8,7 +8,7 @@ chardet==3.0.4
 click==7.1.1
 click-plugins==1.1.1
 cligj==0.5.0
-cryptography==3.2
+cryptography==3.3
 distro==1.5.0
 feedparser==5.2.1
 Fiona==1.8.13.post1

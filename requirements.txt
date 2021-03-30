@@ -22,7 +22,7 @@ idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.3
 jsonify==0.5
-lxml==4.5.0
+lxml==4.6.2
 MarkupSafe==1.1.1
 mkl-fft==1.0.15
 mkl-random==1.1.0
